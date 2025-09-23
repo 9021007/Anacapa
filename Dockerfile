@@ -35,7 +35,7 @@ RUN ~/miniconda3/bin/conda install -c conda-forge biopython
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu noble-cran40/" >> /etc/apt/sources.list
 RUN apt-get install -y gnupg && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 && apt-get update && apt-get install -y --no-install-recommends r-base r-base-dev
 
-# Cran Packages
+# Cran Packagescle
 #     ggplot2
 #     plyr
 #     dplyr
@@ -75,6 +75,9 @@ RUN tar -xvzf /app/Anacapa_db/muscle3.8.31_i86linux64.tar.gz -C /app/Anacapa_db
 RUN rm /app/Anacapa_db/muscle3.8.31_i86linux64.tar.gz
 # make muscle executable
 RUN chmod +x /app/Anacapa_db/muscle3.8.31_i86linux64
+
+# this isn't listed anywhere as a dependency, but it's required
+RUN apt-get install -y environment-modules
 
 # SHELL ["/bin/bash", "-c", "source ~/miniconda3/bin/activate cutadapt && conda activate cutadapt"]
 
