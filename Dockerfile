@@ -59,8 +59,10 @@ RUN R -e "install.packages(c('ggplot2', 'plyr', 'dplyr', 'seqRFLP', 'reshape2', 
 #     impute
 #     Biostrings
 RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager', repos='https://cloud.r-project.org/'); BiocManager::install(c('phyloseq', 'genefilter', 'impute', 'Biostrings'))"
-# dada2 (Version 1.6) https://github.com/benjjneb/dada2
-RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager', repos='https://cloud.r-project.org/'); BiocManager::install('dada2', version = '3.21')"
+# dada2 (Version 1.26) https://github.com/benjjneb/dada2
+RUN apt-get install -y environment-modules nano libfreetype-dev libfontconfig1-dev libcurl4-openssl-dev libssl-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libwebp-dev libxml2
+
+RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager', repos='https://cloud.r-project.org/'); BiocManager::install('dada2')"
 
 #insall bowtie2
 RUN ~/miniconda3/bin/conda install -c bioconda bowtie2
