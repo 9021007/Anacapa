@@ -28,7 +28,7 @@ elif adapt == neb:
     adapter_Frc='GATCGGAAGAGCACACGTCTGAACTCCAGTCAC'
     adapter_Rrc='GATCGGAAGAGCACACGTCTGAACTCCAGTCAC'
 else:
-   print "\n warning \n not nextera or truseq add adater to anacapa_format_primers_cutadapt.py"
+   print("\n warning \n not nextera or truseq add adater to anacapa_format_primers_cutadapt.py")
 
 
 nuc_dict = {'A':'T','T':'A','U':'A','G':'C','C':'G','Y':'R','R':'Y','S':'S','W':'W','K':'M','M':'K','B':'V','D':'H','H':'D','V':'B','N':'N','I':'I','a':'T','t':'A','u':'A','g':'C','c':'G','y':'R','r':'Y','s':'S','w':'W','k':'M','m':'K','b':'V','d':'H','h':'D','v':'B','n':'N'}
@@ -50,11 +50,11 @@ header = ''
 seq = ''
 for line in F_infile:
     if line[0] == ">":
-    	header = line.strip()
+        header = line.strip()
         outfile.write(header + "\n")
     else:
-    	seq = line.strip()
-    	outfile.write("^" + seq + "\n")
+        seq = line.strip()
+        outfile.write("^" + seq + "\n")
 outfile.close()
 F_infile.close()
 
@@ -65,11 +65,11 @@ header = ''
 seq = ''
 for line in F_infile:
     if line[0] == ">":
-    	header = line.strip()
+        header = line.strip()
         outfile.write(header + "_rc" + "\n")
     else:
-    	seq = line.strip()
-    	outfile.write(rComp(seq)+ "$" + "\n")
+        seq = line.strip()
+        outfile.write(rComp(seq)+ "$" + "\n")
 outfile.close()
 F_infile.close()
 
@@ -80,11 +80,11 @@ header = ''
 seq = ''
 for line in F_infile:
     if line[0] == ">":
-    	header = line.strip()
+        header = line.strip()
         outfile.write(header + "_rc" + "\n")
     else:
-    	seq = line.strip()
-    	outfile.write(rComp(seq) + adapter_Frc  + "\n")
+        seq = line.strip()
+        outfile.write(rComp(seq) + adapter_Frc  + "\n")
 outfile.close()
 F_infile.close()
 
@@ -99,11 +99,11 @@ header = ''
 seq = ''
 for line in R_infile:
     if line[0] == ">":
-    	header = line.strip()
+        header = line.strip()
         outfile.write(header + "\n")
     else:
-    	seq = line.strip()
-    	outfile.write("^" + seq + "\n")
+        seq = line.strip()
+        outfile.write("^" + seq + "\n")
 outfile.close()
 R_infile.close()
 
@@ -114,11 +114,11 @@ header = ''
 seq = ''
 for line in R_infile:
     if line[0] == ">":
-    	header = line.strip()
+        header = line.strip()
         outfile.write(header + "_rc" + "\n")
     else:
-    	seq = line.strip()
-    	outfile.write(rComp(seq)+ "$" + "\n")
+        seq = line.strip()
+        outfile.write(rComp(seq)+ "$" + "\n")
 outfile.close()
 R_infile.close()
 
@@ -129,10 +129,10 @@ header = ''
 seq = ''
 for line in R_infile:
     if line[0] == ">":
-    	header = line.strip()
+        header = line.strip()
         outfile.write(header + "_rc" + "\n")
     else:
-    	seq = line.strip()
-    	outfile.write(rComp(seq) + adapter_Rrc + "\n")
+        seq = line.strip()
+        outfile.write(rComp(seq) + adapter_Rrc + "\n")
 outfile.close()
 R_infile.close()

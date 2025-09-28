@@ -57,8 +57,11 @@ if (any(!.inst)) {
 .bioc_packages <- c("phyloseq", "genefilter", "impute", "Biostrings")
 .inst <- .bioc_packages %in% installed.packages()
 if (any(!.inst)) {
-  source("http://bioconductor.org/biocLite.R")
-  biocLite(.bioc_packages[!.inst])
+  # source("http://bioconductor.org/biocLite.R")
+  # biocLite(.bioc_packages[!.inst])
+  if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+  BiocManager::install(.bioc_packages[!.inst], ask = FALSE)
 }
 
 .dada_version = "1.6.0"

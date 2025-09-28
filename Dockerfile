@@ -35,7 +35,7 @@ RUN ~/miniconda3/bin/conda install -c conda-forge biopython
 RUN echo "deb https://cloud.r-project.org/bin/linux/ubuntu noble-cran40/" >> /etc/apt/sources.list
 RUN apt-get install -y gnupg && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 && apt-get update && apt-get install -y --no-install-recommends r-base r-base-dev
 
-# Cran Packagescle
+# Cran Packages
 #     ggplot2
 #     plyr
 #     dplyr
@@ -65,6 +65,8 @@ RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages
 #insall bowtie2
 RUN ~/miniconda3/bin/conda install -c bioconda bowtie2
 
+RUN apt-get install -y environment-modules nano libfreetype-dev libfontconfig1-dev libcurl4-openssl-dev libssl-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libwebp-dev libxml2
+
 RUN mkdir /app
 COPY . /app
 WORKDIR /app
@@ -77,8 +79,22 @@ RUN rm /app/Anacapa_db/muscle3.8.31_i86linux64.tar.gz
 RUN chmod +x /app/Anacapa_db/muscle3.8.31_i86linux64
 
 # this isn't listed anywhere as a dependency, but it's required
-RUN apt-get install -y environment-modules
+
+
+# add environment modules to bashrc with:
+# if ! shopt -q login_shell; then
+#     . /usr/share/modules/init/bash
+# fi
+RUN echo 'if ! shopt -q login_shell; then' >> ~/.bashrc
+RUN echo '    . /usr/share/modules/init/bash' >> ~/.bashrc
+RUN echo 'fi' >> ~/.bashrc
+
+ENV FASTX_TOOLKIT="/root/fastxtoolkit"
+ENV ANACONDA_PYTHON="/root/miniconda3"
 
 # SHELL ["/bin/bash", "-c", "source ~/miniconda3/bin/activate cutadapt && conda activate cutadapt"]
 
 # i need openssl and curl for one of the packages
+
+# Anacapa_db/anacapa_QC_dada2.sh -i Example_data/12S_example_anacapa_QC_dada2_and_BLCA_classifier/12S_test_data/ -o out -d Anacapa_db/ -a nextera -t MiSeq -l
+# R version 3.4.2 maybe?
