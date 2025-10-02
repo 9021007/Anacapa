@@ -3,13 +3,13 @@
 
 # Example usage:
 # python blca_from_bowtie.py -i take_3_local.sam -r CO1_labeled_taxonomy.txt -q CO1_.fasta -b 0.8 -p path/to/muscle
-from __future__ import print_function, division
+
 
 import sys
 import os
 
 if sys.version_info < (3, 0):
-    from StringIO import StringIO
+    from io import StringIO
 else:
     from io import StringIO
 
@@ -197,7 +197,7 @@ def pairwise_score(alndic, query, match, mismatch, ngap):
     '''Calculate pairwise alignment score given a query'''
     nt = ["A", "C", "T", "G", "g", "a", "c", "t"]
     hitscore = {}
-    for k, v in alndic.items():
+    for k, v in list(alndic.items()):
         if k != query:
             hitscore[k] = 0
             for i in range(len(v)):
@@ -212,7 +212,7 @@ def pairwise_score(alndic, query, match, mismatch, ngap):
     total = float(sum(hitscore.values()))
     if total <= 0:
         total = 1
-    for k, v in hitscore.items():
+    for k, v in list(hitscore.items()):
         hitscore[k] = v / total
     return hitscore
 
@@ -222,10 +222,10 @@ def random_aln_score(alndic, query, match, mismatch, ngap):
     nt = ["A", "C", "T", "G", "g", "a", "c", "t"]
     idx = []
     for i in range(len(list(alndic.values())[0])):
-        idx.append(random.choice(range(len(list(alndic.values())[0]))))
+        idx.append(random.choice(list(range(len(list(alndic.values())[0])))))
 
     hitscore = {}
-    for k, v in alndic.items():
+    for k, v in list(alndic.items()):
         if k != query:
             hitscore[k] = 0
             for i in idx:
@@ -255,7 +255,7 @@ def get_gap_pos(query, alndic):
 def cut_gap(alndic, start, end):
     '''Given a start and end gap position, truncate the alignmnet'''
     trunc_alndic = {}
-    for k_truc, v_truc in alndic.items():
+    for k_truc, v_truc in list(alndic.items()):
         trunc_alndic[k_truc] = v_truc[start:end]
     return trunc_alndic
 
@@ -269,7 +269,7 @@ def read_tax_acc(taxfile, not_available_handler):
             continue
         if (levels[0] + ':') not in l:
             taxons = [not_available_handler.encode_if_na(taxon) for taxon in lne[1].split(';')]
-            acctax[lne[0].split('.')[0]] = dict(zip(levels, taxons))
+            acctax[lne[0].split('.')[0]] = dict(list(zip(levels, taxons)))
         else:
             pairs = [x.split(":", 1) for x in lne[1].split(";")]
             encoded = [(level, not_available_handler.encode_if_na(taxon)) for level, taxon in pairs]
@@ -324,7 +324,7 @@ with open(sam_file_name) as sam_file:
 rejects = possible_rejects.difference(set(input_sequences))
 
 
-print "> 3 > Read in bowtie2 output!"
+# print "> 3 > Read in bowtie2 output!"
 
 already_assigned = set()
 if continue_mode:
@@ -335,7 +335,7 @@ if continue_mode:
 else:
     outfile = open(outfile_name, 'w')
 
-for seqn, info in input_sequences.items():
+for seqn, info in list(input_sequences.items()):
     if seqn in already_assigned:
         continue
 
@@ -343,7 +343,7 @@ print("> 3 > Read in bowtie2 output!")
 
 count = 0
 outfile = open(outfile_name, 'w')
-for seqn, info in input_sequences.items():
+for seqn, info in list(input_sequences.items()):
     count += 1
 
     if seqn in acc2tax:
@@ -389,7 +389,7 @@ for seqn, info in input_sequences.items():
         random_scores = random_aln_score(trunc_alndic, seqn, match, mismatch, ngap)
         perdict[j] = random_scores
         max_score = max(random_scores.values())
-        hits_with_max_score = [k3 for k3, v3 in random_scores.items() if v3 == max_score]
+        hits_with_max_score = [k3 for k3, v3 in list(random_scores.items()) if v3 == max_score]
         vote_share = 1.0 / len(hits_with_max_score)
         for hit in hits_with_max_score:
             if hit in pervote:
@@ -399,7 +399,7 @@ for seqn, info in input_sequences.items():
 
     ### normalize vote by total votes ###
     ttlvote = sum(pervote.values())
-    for k4, v4 in pervote.items():
+    for k4, v4 in list(pervote.items()):
         pervote[k4] = v4 / ttlvote * 100
     ###
 
@@ -407,7 +407,7 @@ for seqn, info in input_sequences.items():
     for level in levels:
         votes_by_level[level] = defaultdict(int)
 
-    for hit in orgscore.keys():
+    for hit in list(orgscore.keys()):
         short_hit_name = hit.split(".")[0]
         if short_hit_name not in acc2tax:
             print("Missing taxonomy info for ", short_hit_name)

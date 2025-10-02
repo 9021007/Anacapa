@@ -67,8 +67,6 @@ RUN R -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages
 #insall bowtie2
 RUN ~/miniconda3/bin/conda install -c bioconda bowtie2
 
-RUN apt-get install -y environment-modules nano libfreetype-dev libfontconfig1-dev libcurl4-openssl-dev libssl-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libwebp-dev libxml2
-
 RUN mkdir /app
 COPY . /app
 WORKDIR /app
@@ -94,9 +92,12 @@ RUN echo 'fi' >> ~/.bashrc
 ENV FASTX_TOOLKIT="/root/fastxtoolkit"
 ENV ANACONDA_PYTHON="/root/miniconda3"
 
+RUN python -m pip install pandas
+
 # SHELL ["/bin/bash", "-c", "source ~/miniconda3/bin/activate cutadapt && conda activate cutadapt"]
 
 # i need openssl and curl for one of the packages
 
 # Anacapa_db/anacapa_QC_dada2.sh -i Example_data/12S_example_anacapa_QC_dada2_and_BLCA_classifier/12S_test_data/ -o out -d Anacapa_db/ -a nextera -t MiSeq -l
+SHELL ["Anacapa_db/anacapa_QC_dada2.sh", "-i", "Example_data/12S_example_anacapa_QC_dada2_and_BLCA_classifier/12S_test_data/", "-o", "out", "-d", "Anacapa_db/", "-a", "nextera", "-t", "MiSeq", "-l"]
 # R version 3.4.2 maybe?

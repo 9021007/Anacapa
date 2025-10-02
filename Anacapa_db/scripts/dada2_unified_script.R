@@ -47,13 +47,27 @@ if (file.access(path, mode = 2) != 0) {
 # Manage packages -----
 
 #1. Download packages from CRAN
-.cran_packages  <-  c("ggplot2", "plyr", "dplyr","seqRFLP", "reshape2", "tibble", "devtools", "Matrix", "mgcv")
+
+# install seqRFLP from archive - https://cran.r-project.org/src/contrib/Archive/seqRFLP/seqRFLP_1.0.1.tar.gz
+install.packages("https://cran.r-project.org/src/contrib/Archive/seqRFLP/seqRFLP_1.0.1.tar.gz", repos = NULL, type="source")
+
+
+
+# .cran_packages  <-  c("ggplot2", "plyr", "dplyr","seqRFLP", "reshape2", "tibble", "devtools", "Matrix", "mgcv")
+.cran_packages  <-  c("ggplot2", "plyr", "dplyr", "reshape2", "tibble", "devtools", "Matrix", "mgcv")
+
 .inst <- .cran_packages %in% installed.packages()
 if (any(!.inst)) {
   install.packages(.cran_packages[!.inst], repos = "http://cran.rstudio.com/")
 }
 
 # 2. Download packages from biocLite
+
+# https://cran.r-project.org/src/contrib/Archive/seqRFLP/seqRFLP_1.0.1.tar.gz
+
+
+
+
 .bioc_packages <- c("phyloseq", "genefilter", "impute", "Biostrings")
 .inst <- .bioc_packages %in% installed.packages()
 if (any(!.inst)) {
@@ -64,8 +78,8 @@ if (any(!.inst)) {
   BiocManager::install(.bioc_packages[!.inst], ask = FALSE)
 }
 
-.dada_version = "1.6.0"
-.dada_version_gh = "v1.6"
+.dada_version = "1.26.0"
+.dada_version_gh = "v1.26"
 if("dada2" %in% installed.packages()){
   if(packageVersion("dada2") == .dada_version) {
     cat("congrats, right version of dada2")
@@ -75,13 +89,12 @@ if("dada2" %in% installed.packages()){
 }
 
 if(!("dada2" %in% installed.packages())){
-  # if the user doesn't have dada2 installed, install version 1.6 from github
   devtools::install_github("benjjneb/dada2", ref=.dada_version_gh)
 }
 
 library("dada2")
 cat(paste("dada2 package version:", packageVersion("dada2")))
-if(packageVersion("dada2") != '1.6.0') {
+if(packageVersion("dada2") != '1.26.0') {
   stop("Please make sure you have dada version ", .dada_version, " installed")
 }
 
