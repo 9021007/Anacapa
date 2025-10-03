@@ -99,5 +99,6 @@ RUN /root/miniconda3/bin/python -m pip install pandas
 # i need openssl and curl for one of the packages
 
 # Anacapa_db/anacapa_QC_dada2.sh -i Example_data/12S_example_anacapa_QC_dada2_and_BLCA_classifier/12S_test_data/ -o out -d Anacapa_db/ -a nextera -t MiSeq -l
+# Anacapa_db/anacapa_classifier.sh -d Anacapa_db -o Example_data/12S_example_anacapa_QC_dada2_and_BLCA_classifier/Anacapa_test_data_expected_output_after_QC_dada2/ -l
 SHELL ["Anacapa_db/anacapa_QC_dada2.sh", "-i", "Example_data/12S_example_anacapa_QC_dada2_and_BLCA_classifier/12S_test_data/", "-o", "out", "-d", "Anacapa_db/", "-a", "nextera", "-t", "MiSeq", "-l"]
 # R version 3.4.2 maybe?    

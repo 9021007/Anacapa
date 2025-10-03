@@ -39,7 +39,8 @@ def merge(file_names, outfile_name, rename=None):
     columns = list(main_df)
     for file_name in file_names[1:]:
         to_append = read_table(file_name, rename)
-        main_df = main_df.append(to_append, ignore_index=True).fillna('0')
+        # main_df = main_df.append(to_append, ignore_index=True).fillna('0')
+        main_df = pd.concat([main_df, to_append], ignore_index=True).fillna('0')
     all_columns = columns + [c for c in list(main_df) if c not in columns]
     main_df = main_df.loc[:, all_columns]
     main_df.to_csv(outfile_name, sep='\t', index=False)
