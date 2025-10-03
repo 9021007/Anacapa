@@ -92,7 +92,7 @@ RUN echo 'fi' >> ~/.bashrc
 ENV FASTX_TOOLKIT="/root/fastxtoolkit"
 ENV ANACONDA_PYTHON="/root/miniconda3"
 
-RUN python -m pip install pandas
+RUN /root/miniconda3/bin/python -m pip install pandas
 
 # SHELL ["/bin/bash", "-c", "source ~/miniconda3/bin/activate cutadapt && conda activate cutadapt"]
 
@@ -100,4 +100,4 @@ RUN python -m pip install pandas
 
 # Anacapa_db/anacapa_QC_dada2.sh -i Example_data/12S_example_anacapa_QC_dada2_and_BLCA_classifier/12S_test_data/ -o out -d Anacapa_db/ -a nextera -t MiSeq -l
 SHELL ["Anacapa_db/anacapa_QC_dada2.sh", "-i", "Example_data/12S_example_anacapa_QC_dada2_and_BLCA_classifier/12S_test_data/", "-o", "out", "-d", "Anacapa_db/", "-a", "nextera", "-t", "MiSeq", "-l"]
-# R version 3.4.2 maybe?
+# R version 3.4.2 maybe?    
