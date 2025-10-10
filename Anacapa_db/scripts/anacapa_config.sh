@@ -5,7 +5,7 @@
 
 #Local mode
 #Uncomment the following line (delete the #) if you are NOT running on a cluster (e.g. Hoffman2)
-#LOCALMODE=TRUE
+LOCALMODE=TRUE
 
 #############################
 # Paths to programs / load programs
