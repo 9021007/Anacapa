@@ -158,30 +158,9 @@ if(paired_or_not == "paired") {
   filtered_seqs_name <- file.path(filt_path, paste0(all_sample_names, "_R_filt.fastq.gz"))
 }
 
-print("fnFs")
-print(fnFs)
-# "out/12S/12S_sort_by_read_type/paired/12S_first1000reads-LSC-A-1-S19-L001_Paired_1_pairs_R1.fastq"
-# "out/12S/12S_sort_by_read_type/paired/12S_first1000reads-LSC-A-2-S20-L001_Paired_1_pairs_R1.fastq"
-print("filtered_seqs_name")
-print(filtered_seqs_name)
-# "out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-1-S19-L001_F_filt.fastq.gz"
-# "out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-2-S20-L001_F_filt.fastq.gz"
-print("paired_or_not")
-print(paired_or_not)
-# paired
-print("filt_path")
-print(filt_path)
-# "out/12S/12S_sort_by_read_type/paired/filtered"
-
 
 # Run the filtering step ------
 if(paired_or_not == "paired") {
-  print("fnRs")
-  print(fnRs)
-  print("filtered_seqs_name_R")
-  print(filtered_seqs_name_R)
-  # "out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-1-S19-L001_R_filt.fastq.gz"
-  # "out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-2-S20-L001_R_filt.fastq.gz"
   filtered_seqs <- filterAndTrim(fnFs, filtered_seqs_name, fnRs, filtered_seqs_name_R, minLen = 10,
                                  maxN=0, maxEE=c(2,2), truncQ=0, rm.phix=TRUE,
                                  compress=F,matchIDs=TRUE, multithread=FALSE) # On Windows set multithread=FALSE
@@ -191,28 +170,6 @@ if(paired_or_not == "paired") {
                                  compress=TRUE, multithread=FALSE) # On Windows set multithread=FALSE
 
 }
-
-
-
-# Creating output directory: out/12S/12S_sort_by_read_type/paired/filtered
-# The filter removed all reads: out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-1-S19-L001_F_filt.fastq.gz and out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-1-S19-L001_R_filt.fastq.gz not written.
-# The filter removed all reads: out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-2-S20-L001_F_filt.fastq.gz and out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-2-S20-L001_R_filt.fastq.gz not written.
-# Warning messages:
-# 1: In file.remove(fout[[1]]) :
-#   cannot remove file 'out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-1-S19-L001_F_filt.fastq.gz', reason 'No such file or directory'
-# 2: In file.remove(fout[[2]]) :
-#   cannot remove file 'out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-1-S19-L001_R_filt.fastq.gz', reason 'No such file or directory'
-# 3: In file.remove(fout[[1]]) :
-#   cannot remove file 'out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-2-S20-L001_F_filt.fastq.gz', reason 'No such file or directory'
-# 4: In file.remove(fout[[2]]) :
-#   cannot remove file 'out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-2-S20-L001_R_filt.fastq.gz', reason 'No such file or directory'
-# 5: In filterAndTrim(fnFs, filtered_seqs_name, fnRs, filtered_seqs_name_R,  :
-#   No reads passed the filter. Please revisit your filtering parameters.
-
-
-
-
-print("filtseq over")
 
 head(filtered_seqs)
 

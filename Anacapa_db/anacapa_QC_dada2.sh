@@ -247,21 +247,6 @@ mkdir -p ${OUT}/QC/cutadapt_fastq/primer_sort
 mkdir -p ${OUT}/Run_info/cutadapt_out
 
 
-echo "time to debug cutadapt"
-echo "Cutadapt var - ${CUTADAPT}"
-echo "-e ${CTADE:=$ERROR_QC1}"
-echo "-g ${F_ADAPT}"
-echo "-a ${Rrc_PRIM_ADAPT}"
-echo "-G ${R_ADAPT}"
-echo "-A ${Frc_PRIM_ADAPT}"
-echo "str1 - ${str1}"
-echo "PCTADE - ${PCTADE:=$ERROR_PS}"
-echo "F_PRIM ${F_PRIM}"
-echo "R_PRIM ${R_PRIM}"
-echo "FETRIM ${FETRIM:=$MS_F_TRIM}"
-echo "RETRIM ${RETRIM:=$MS_R_TRIM}"
-
-
 # time to debug cutadapt
 # Cutadapt var - /root/miniconda3/envs/cutadapt/bin/cutadapt
 # -e .3

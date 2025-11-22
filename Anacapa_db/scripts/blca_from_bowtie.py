@@ -340,16 +340,12 @@ for seqn, info in list(input_sequences.items()):
         continue
 
 print("> 3 > Read in bowtie2 output!")
-# print(1)
 count = 0
 outfile = open(outfile_name, 'w')
-# print(2)
 for seqn, info in list(input_sequences.items()):
-    # print(3)
     count += 1
 
     if seqn in acc2tax:
-        # print(4)
         print("[WARNING] Your sequence " + seqn + " has the same ID as the reference database! Please correct it!")
         print("...Skipping sequence " + seqn + " ......")
         outfile.write(seqn + "\tSkipped\n")
@@ -359,30 +355,20 @@ for seqn, info in list(input_sequences.items()):
     ### Add query fasta sequence to extracted hit fasta ###
     fifsa = []
     for hit in info.hits:
-        # print(5)
         if hit not in reference_sequences:
-            # print(6)
             print("Missing reference sequence for " + hit)
             continue
-        # print(7)
         fifsa.append(">{}\n{}\n".format(hit, reference_sequences[hit]))
-    # print(8)
     fifsa.append(">" + seqn + "\n" + info.seq)
-    # print(9)
     fifsa = "\n".join(fifsa)
     # os.system("rm " + seqn + ".dblist")
     ### Run muscle ###
     muscle_call = [muscle_path, '-quiet', '-clw', '-maxiters',  str(muscle_max_iterations)]
-    # print(10)
     if muscle_use_diags:
-        print(11)
         muscle_call.append('-diags')
-    # print(12)
     proc = subprocess.Popen(muscle_call, stdout=subprocess.PIPE, stdin=subprocess.PIPE)
-    print(13)
     dbgtmp = fifsa.encode('utf-8')
     print(dbgtmp)
-    print(13.5)
     
     
     outs, errs = proc.communicate(dbgtmp)
@@ -392,48 +378,35 @@ for seqn, info in list(input_sequences.items()):
     # print outs
     # print errs
     # print StringIO.StringIO(outs)
-    print(14)
     alndic = get_dic_from_aln(StringIO(outs.decode('utf-8')))
     # os.system("rm " + seqn + ".hits.fsa")
     # os.system("rm " + seqn + ".muscle")
     #    	print "Processing:",k1
     ### get gap position and truncate the alignment###
-    # print(15)
     start, end = get_gap_pos(seqn, alndic)
-    # print(16)
     trunc_alndic = cut_gap(alndic, start, end)
-    # print(17)
     orgscore = pairwise_score(trunc_alndic, seqn, match, mismatch, ngap)
-    # print(18)
     ### start bootstrap ###
     perdict = {}  # record alignmet score for each iteration
     pervote = {}  # record vote after nper bootstrap
 
     for j in range(nper):
-        # print(19)
         random_scores = random_aln_score(trunc_alndic, seqn, match, mismatch, ngap)
-        # print(20)
         perdict[j] = random_scores
-        # print(21)
         max_score = max(random_scores.values())
-        # print(22)
         hits_with_max_score = [k3 for k3, v3 in list(random_scores.items()) if v3 == max_score]
-        # print(23)
         vote_share = 1.0 / len(hits_with_max_score)
         for hit in hits_with_max_score:
-            # print(24)
             if hit in pervote:
                 pervote[hit] += vote_share
             else:
                 pervote[hit] = vote_share
-        # print(25)
 
     ### normalize vote by total votes ###
     ttlvote = sum(pervote.values())
     for k4, v4 in list(pervote.items()):
         pervote[k4] = v4 / ttlvote * 100
     ###
-    # print(26)
 
     votes_by_level = {}
     for level in levels:
