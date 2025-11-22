@@ -9,13 +9,14 @@ import os
 
 
 def read_table(file_name, rename=None):
+    print("reading file:", file_name, "rename:", rename)
     df = pd.read_csv(file_name, sep='\t', header=0, dtype='object')
-    columns = list(df)
-    old_id = columns[0]
+    columns = list(df) # forward_12S_seq_number  sequence  X12S_first1000reads.LSC.A.1.S19.L001  X12S_first1000reads.LSC.A.2.S20.L001
+    old_id = columns[0] # forward_12S_seq_number
     if rename:
         new_id = rename
     else:
-        new_id = '_'.join(old_id.split('_')[-3:])
+        new_id = '_'.join(old_id.split('_')[-3:]) # new id is 12S_seq_number
 
     df = df.rename(columns={old_id: new_id})
     sequence_column_names = ['sequence', 'sequencesF', 'sequencesR']
@@ -25,6 +26,10 @@ def read_table(file_name, rename=None):
 
     special_columns = [new_id] + sequence_column_names
     data_columns = [col for col in columns if col not in special_columns]
+    
+    print("special columns:", special_columns)
+    print("data columns:", data_columns)
+    print("df columns before reorder:", list(df))
 
     #reorder the dataframe
     df = df.loc[:, special_columns + data_columns]

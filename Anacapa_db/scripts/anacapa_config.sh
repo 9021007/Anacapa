@@ -25,7 +25,7 @@ CUTADAPT="/root/miniconda3/envs/cutadapt/bin/cutadapt" 		#version 1.16 path to c
 FASTX_TOOLKIT="/root/fastxtoolkit"				#version 0.0.13.2 or what ever code is used to load fastx_toolkit in a bash shell, or path to fastx_toolkit
 
 #load anaconda/python2-4.2
-ANACONDA_PYTHON="/root/miniconda3/bin/python3"				#or whatever code is used to load anaconda/python2-4.2 in a bash shell, or path to anaconda/python2-4.2
+ANACONDA_PYTHON="/root/miniconda3/bin/python3 --version"				#or whatever code is used to load anaconda/python2-4.2 in a bash shell, or path to anaconda/python2-4.2
 
 #load bowtie2
 BOWTIE2="/root/miniconda3/bin/bowtie2"							# version 2.3.4 or what ever code is used to load bowtie2 in a bash shell, or path to bowtie2

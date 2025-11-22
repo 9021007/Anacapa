@@ -145,14 +145,14 @@ mkdir -p ${OUT}/${MB}/${MB}_taxonomy_tables
 # make a breif summary table
 python ${DB}/scripts/merge_asv1.py ${OUT}/${MB}/${MB}dada2_out/nochim_forward${MB}.txt ${OUT}/${MB}/${MB}dada2_out/nochim_merged${MB}.txt ${OUT}/${MB}/${MB}dada2_out/nochim_reverse${MB}.txt ${OUT}/${MB}/${MB}dada2_out/nochim_unmerged${MB}.txt -o ${OUT}/${MB}/${MB}_taxonomy_tables/${MB}_ASV_taxonomy_brief.txt
 # make a detailed sumary table.
-python ${DB}/scripts/merge_asv.py ${OUT}/${MB}/${MB}dada2_out/nochim_forward${MB}.txt ${OUT}/${MB}/${MB}dada2_out/nochim_merged${MB}.txt ${OUT}/${MB}/${MB}dada2_out/nochim_reverse${MB}.txt ${OUT}/${MB}/${MB}dada2_out/nochim_unmerged${MB}.txt -o ${OUT}/${MB}/${MB}_taxonomy_tables/${MB}_ASV_taxonomy_detailed.txt
+# python ${DB}/scripts/merge_asv.py ${OUT}/${MB}/${MB}dada2_out/nochim_forward${MB}.txt ${OUT}/${MB}/${MB}dada2_out/nochim_merged${MB}.txt ${OUT}/${MB}/${MB}dada2_out/nochim_reverse${MB}.txt ${OUT}/${MB}/${MB}dada2_out/nochim_unmerged${MB}.txt -o ${OUT}/${MB}/${MB}_taxonomy_tables/${MB}_ASV_taxonomy_detailed.txt
 
 ######################################
 # concatenate bowtie2 tables and run blca
 ######################################
 
 # enrich summary file with bowtie2 data
-python ${DB}/scripts/append_bowtie_to_summary.py ${OUT}/${MB}/${MB}_taxonomy_tables/${MB}_ASV_taxonomy_detailed.txt ${OUT}/${MB}/${MB}bowtie2_out/
+# python ${DB}/scripts/append_bowtie_to_summary.py ${OUT}/${MB}/${MB}_taxonomy_tables/${MB}_ASV_taxonomy_detailed.txt ${OUT}/${MB}/${MB}bowtie2_out/
 
 
 ##### if running big files or have a cluster do not run in local mode
@@ -209,7 +209,7 @@ date
 echo ""
 echo "Add blca taxonomy to the ASV site frequency table"
 python ${DB}/scripts/append_blca_to_summary.py ${OUT}/${MB}/${MB}_taxonomy_tables/${MB}_ASV_taxonomy_brief.txt ${OUT}/${MB}/${MB}bowtie2_out/${MB}_bowtie2_all.sam.blca.out
-python ${DB}/scripts/append_blca_to_summary.py ${OUT}/${MB}/${MB}_taxonomy_tables/${MB}_ASV_taxonomy_detailed.txt ${OUT}/${MB}/${MB}bowtie2_out/${MB}_bowtie2_all.sam.blca.out
+# python ${DB}/scripts/append_blca_to_summary.py ${OUT}/${MB}/${MB}_taxonomy_tables/${MB}_ASV_taxonomy_detailed.txt ${OUT}/${MB}/${MB}bowtie2_out/${MB}_bowtie2_all.sam.blca.out
 
 mkdir -p ${OUT}/${MB}/${MB}_taxonomy_tables/Summary_by_percent_confidence
 

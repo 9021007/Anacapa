@@ -48,17 +48,21 @@ if (file.access(path, mode = 2) != 0) {
 
 #1. Download packages from CRAN
 
-# install seqRFLP from archive - https://cran.r-project.org/src/contrib/Archive/seqRFLP/seqRFLP_1.0.1.tar.gz
-install.packages("https://cran.r-project.org/src/contrib/Archive/seqRFLP/seqRFLP_1.0.1.tar.gz", repos = NULL, type="source")
-
+# install seqRFLP from archive, if not installed currently - https://cran.r-project.org/src/contrib/Archive/seqRFLP/seqRFLP_1.0.1.tar.gz
+if (!("seqRFLP" %in% installed.packages())){
+  install.packages("https://cran.r-project.org/src/contrib/Archive/seqRFLP/seqRFLP_1.0.1.tar.gz", repos = NULL, type="source")
+}
 
 
 # .cran_packages  <-  c("ggplot2", "plyr", "dplyr","seqRFLP", "reshape2", "tibble", "devtools", "Matrix", "mgcv")
 .cran_packages  <-  c("ggplot2", "plyr", "dplyr", "reshape2", "tibble", "devtools", "Matrix", "mgcv")
 
 .inst <- .cran_packages %in% installed.packages()
+print("List of CRAN packages to be installed:")
+print(.cran_packages[!.inst])
 if (any(!.inst)) {
-  install.packages(.cran_packages[!.inst], repos = "http://cran.rstudio.com/")
+  print("Installing missing CRAN packages...")
+  install.packages(.cran_packages[!.inst], repos = "https://cran.rstudio.com/")
 }
 
 # 2. Download packages from biocLite
@@ -70,11 +74,14 @@ if (any(!.inst)) {
 
 .bioc_packages <- c("phyloseq", "genefilter", "impute", "Biostrings")
 .inst <- .bioc_packages %in% installed.packages()
+print("List of Bioconductor packages to be installed:")
+print(.bioc_packages[!.inst])
 if (any(!.inst)) {
+  print("Installing missing Bioconductor packages...")
   # source("http://bioconductor.org/biocLite.R")
   # biocLite(.bioc_packages[!.inst])
   if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
+    install.packages("BiocManager", repos = "https://cloud.r-project.org")
   BiocManager::install(.bioc_packages[!.inst], ask = FALSE)
 }
 
@@ -84,20 +91,23 @@ if("dada2" %in% installed.packages()){
   if(packageVersion("dada2") == .dada_version) {
     cat("congrats, right version of dada2")
   } else {
+    print("You have version ", packageVersion("dada2"), " of dada2 installed. Installing version ", .dada_version, " now...")
     devtools::install_github("benjjneb/dada2", ref=.dada_version_gh)
   }
 }
 
 if(!("dada2" %in% installed.packages())){
+  print("dada2 not installed. Installing version ", .dada_version, " now...")
   devtools::install_github("benjjneb/dada2", ref=.dada_version_gh)
 }
-
+print("library dada2")
 library("dada2")
 cat(paste("dada2 package version:", packageVersion("dada2")))
 if(packageVersion("dada2") != '1.26.0') {
   stop("Please make sure you have dada version ", .dada_version, " installed")
 }
 
+print("loading other libraries")
 library("seqRFLP")
 library("plyr")
 library("Biostrings")
@@ -105,6 +115,7 @@ library("reshape2")
 library("dplyr")
 library("tibble")
 library("ggplot2")
+print("libraries loaded")
 
 # Set up paths to files ----------
 
@@ -147,17 +158,62 @@ if(paired_or_not == "paired") {
   filtered_seqs_name <- file.path(filt_path, paste0(all_sample_names, "_R_filt.fastq.gz"))
 }
 
+print("fnFs")
+print(fnFs)
+# "out/12S/12S_sort_by_read_type/paired/12S_first1000reads-LSC-A-1-S19-L001_Paired_1_pairs_R1.fastq"
+# "out/12S/12S_sort_by_read_type/paired/12S_first1000reads-LSC-A-2-S20-L001_Paired_1_pairs_R1.fastq"
+print("filtered_seqs_name")
+print(filtered_seqs_name)
+# "out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-1-S19-L001_F_filt.fastq.gz"
+# "out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-2-S20-L001_F_filt.fastq.gz"
+print("paired_or_not")
+print(paired_or_not)
+# paired
+print("filt_path")
+print(filt_path)
+# "out/12S/12S_sort_by_read_type/paired/filtered"
+
+
 # Run the filtering step ------
 if(paired_or_not == "paired") {
+  print("fnRs")
+  print(fnRs)
+  print("filtered_seqs_name_R")
+  print(filtered_seqs_name_R)
+  # "out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-1-S19-L001_R_filt.fastq.gz"
+  # "out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-2-S20-L001_R_filt.fastq.gz"
   filtered_seqs <- filterAndTrim(fnFs, filtered_seqs_name, fnRs, filtered_seqs_name_R, minLen = 10,
                                  maxN=0, maxEE=c(2,2), truncQ=0, rm.phix=TRUE,
-                                 compress=F,matchIDs=TRUE, multithread=TRUE) # On Windows set multithread=FALSE
+                                 compress=F,matchIDs=TRUE, multithread=FALSE) # On Windows set multithread=FALSE
 } else {
   filtered_seqs <- filterAndTrim(fnFs, filtered_seqs_name, minLen = 10,
                                  maxN=0, maxEE=c(2), truncQ=0, rm.phix=TRUE,
-                                 compress=TRUE, multithread=TRUE) # On Windows set multithread=FALSE
+                                 compress=TRUE, multithread=FALSE) # On Windows set multithread=FALSE
 
 }
+
+
+
+# Creating output directory: out/12S/12S_sort_by_read_type/paired/filtered
+# The filter removed all reads: out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-1-S19-L001_F_filt.fastq.gz and out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-1-S19-L001_R_filt.fastq.gz not written.
+# The filter removed all reads: out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-2-S20-L001_F_filt.fastq.gz and out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-2-S20-L001_R_filt.fastq.gz not written.
+# Warning messages:
+# 1: In file.remove(fout[[1]]) :
+#   cannot remove file 'out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-1-S19-L001_F_filt.fastq.gz', reason 'No such file or directory'
+# 2: In file.remove(fout[[2]]) :
+#   cannot remove file 'out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-1-S19-L001_R_filt.fastq.gz', reason 'No such file or directory'
+# 3: In file.remove(fout[[1]]) :
+#   cannot remove file 'out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-2-S20-L001_F_filt.fastq.gz', reason 'No such file or directory'
+# 4: In file.remove(fout[[2]]) :
+#   cannot remove file 'out/12S/12S_sort_by_read_type/paired/filtered/12S_first1000reads-LSC-A-2-S20-L001_R_filt.fastq.gz', reason 'No such file or directory'
+# 5: In filterAndTrim(fnFs, filtered_seqs_name, fnRs, filtered_seqs_name_R,  :
+#   No reads passed the filter. Please revisit your filtering parameters.
+
+
+
+
+print("filtseq over")
+
 head(filtered_seqs)
 
 

@@ -84,6 +84,7 @@ class Fastq(object):
             return self.name
 
     def write_to_file(self, handle):
+        print(f"Writing read {self.name} to file")
         handle.write(self.name + "\n")
         handle.write(self.seq + "\n")
         handle.write(self.name2 + "\n")
@@ -133,20 +134,31 @@ if __name__ == "__main__":
     else:
     	outSuffix='.fastq'
 
+    print("before nested opens")
+
     # Write the output files
     with myopen(path_to_pairds+os.path.basename(in1).replace(outSuffix,"") + "_pairs_R1" + outSuffix, "w") as out1:
         with myopen(path_to_pairds+os.path.basename(in2).replace(outSuffix,"")+ "_pairs_R2" + outSuffix, "w") as out2:
             with myopen(path_to_forwards+os.path.basename(in1).replace(outSuffix,"") + "_singles" + outSuffix, "w") as out3:
               with myopen(path_to_reverses+os.path.basename(in2).replace(outSuffix,"") + "_singles" + outSuffix, "w") as out4:
-
+                print("inside nest")
                 while not (s1_finished and s2_finished):
+                    print("while loop")
                     try:
-                        s1 = seq1.next()
-                    except:
+                        print("getting s1")
+                        # s1 = seq1.next()
+                        s1 = next(seq1)
+                        print("s1 gotten")
+                    except Exception as e:
+                        print(f"Exception getting s1: {e}")
                         s1_finished = True
                     try:
-                        s2 = seq2.next()
-                    except:
+                        print("getting s2")
+                        # s2 = seq2.next()
+                        s2 = next(seq2)
+                        print("s2 gotten")
+                    except Exception as e:
+                        print(f"Exception getting s2: {e}")
                         s2_finished = True
 
                     # Add new sequences to hashes
@@ -156,12 +168,14 @@ if __name__ == "__main__":
                         seq2_dict[s2.getShortname(separator)] = s2
 
                     if not s1_finished and s1.getShortname(separator) in seq2_dict:
+                        print("test3")
                         seq1_dict[s1.getShortname(separator)].write_to_file(out1)
                         seq1_dict.pop(s1.getShortname(separator))
                         seq2_dict[s1.getShortname(separator)].write_to_file(out2)
                         seq2_dict.pop(s1.getShortname(separator))
 
                     if not s2_finished and s2.getShortname(separator) in seq1_dict:
+                        print("test4")
                         seq2_dict[s2.getShortname(separator)].write_to_file(out2)
                         seq2_dict.pop(s2.getShortname(separator))
                         seq1_dict[s2.getShortname(separator)].write_to_file(out1)
@@ -169,8 +183,11 @@ if __name__ == "__main__":
                         
                 # Treat all unpaired reads
                 for r in seq1_dict.values():
+                    print("test1")
                     r.write_to_file(out3)
 
                 for r in seq2_dict.values():
+                    print("test2")
                     r.write_to_file(out4)
+    
 
