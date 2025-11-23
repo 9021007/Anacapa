@@ -3,3 +3,5 @@ local_test_files
 .DS_Store
 out
 Rlibs
+venv
+/docs

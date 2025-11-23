@@ -1,0 +1,7 @@
+
+It looks like you ran this container without an argument!
+
+This container is intended to preserve the environment for the Anacapa program, in such a way that it does not break in the future. It is intended to be used similarly to a virtual machine, in that you enter the container, then interact with the program directly. This allows you to modify the program as needed, and run it on your own data.
+
+For more information on how to do this, head to https://github.com/9021007/Anacapa
+

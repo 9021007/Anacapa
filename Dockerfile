@@ -65,8 +65,9 @@ ENV ANACONDA_PYTHON="/root/miniconda3"
 # SHELL ["/bin/bash", "-c", "source ~/miniconda3/bin/activate cutadapt && conda activate cutadapt"]
 
 # Anacapa_db/anacapa_QC_dada2.sh -i Example_data/12S_example_anacapa_QC_dada2_and_BLCA_classifier/12S_test_data/ -o out -d Anacapa_db/ -a nextera -t MiSeq -l
-# Anacapa_db/anacapa_classifier.sh -d Anacapa_db -o out -l
-SHELL ["Anacapa_db/anacapa_QC_dada2.sh", "-i", "Example_data/12S_example_anacapa_QC_dada2_and_BLCA_classifier/12S_test_data/", "-o", "out", "-d", "Anacapa_db/", "-a", "nextera", "-t", "MiSeq", "-l"]
+COPY Packages/info.txt /root/info.txt
+SHELL ["/bin/bash"]
+CMD ["cat", "/root/info.txt"]
 # R version 3.4.2 maybe?    
 # install.packages('plyr', repos = "http://cran.us.r-project.org")
 
@@ -77,3 +78,5 @@ SHELL ["Anacapa_db/anacapa_QC_dada2.sh", "-i", "Example_data/12S_example_anacapa
 
 
 # Anacapa_db/anacapa_QC_dada2.sh -i Example_data/12S_example_anacapa_QC_dada2_and_BLCA_classifier/12S_test_data -o out -d Anacapa_db -f Example_data/12S_example_anacapa_QC_dada2_and_BLCA_classifier/12S_test_data/forward.txt -r Example_data/12S_example_anacapa_QC_dada2_and_BLCA_classifier/12S_test_data/reverse.txt -e Anacapa_db/metabarcode_loci_min_merge_length.txt -a nextera -t MiSeq -l
+
+# Anacapa_db/anacapa_classifier.sh -d Anacapa_db -o out -l
