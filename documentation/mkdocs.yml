@@ -1,0 +1,9 @@
+site_name: Containerized Anacapa Docs
+extra_css:
+  - style.css
+theme:
+  name: readthedocs
+extensions:
+  - tables
+markdown_extensions:
+  - markdown_grid_tables
