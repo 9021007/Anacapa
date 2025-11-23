@@ -247,21 +247,6 @@ mkdir -p ${OUT}/QC/cutadapt_fastq/primer_sort
 mkdir -p ${OUT}/Run_info/cutadapt_out
 
 
-# time to debug cutadapt
-# Cutadapt var - /root/miniconda3/envs/cutadapt/bin/cutadapt
-# -e .3
-# -g file:out/Run_info/cutadapt_primers_and_adapters/g_nextera_Forward_adapter.txt
-# -a file:out/Run_info/cutadapt_primers_and_adapters/a_Reverse_PrimAdapt_rc.txt
-# -G file:out/Run_info/cutadapt_primers_and_adapters/G_nextera_Reverse_adapter.txt
-# -A file:out/Run_info/cutadapt_primers_and_adapters/A_Forward_PrimAdapt_rc.txt
-# str1 - Example_data/12S_example_anacapa_QC_dada2_and_BLCA_classifier/12S_test_data/first1000reads-LSC-A-2_S20_L001
-# PCTADE - .3
-# F_PRIM file:out/Run_info/cutadapt_primers_and_adapters/g_forward_primers.txt
-# R_PRIM file:out/Run_info/cutadapt_primers_and_adapters/G_reverse_primers.txt
-# FETRIM 0
-# RETRIM 0
-
-
 ###
 for str in `ls ${OUT}/QC/fastq/*_1.fastq`
 do
