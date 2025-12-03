@@ -8,7 +8,7 @@
 Some files are too large to be stored on GitHub, and because this is a public fork of the original Anacapa, GitHub does not support Git LFS. You'll need to get these files yourself.
 
 - Download the file at `https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`, rename it to `miniconda.sh`, and place it in the `Packages` folder.
-- There is a file called `16S_.fasta`, which can be found here `https://datadryad.org/downloads/file_stream/94240`. It blongs at `Anacapa_db/16S/16S_fasta_and_taxonomy/16S_.fasta`
+- There is a file called `16S_.fasta`, which can be found here `https://datadryad.org/downloads/file_stream/94240`. It belongs at `Anacapa_db/16S/16S_fasta_and_taxonomy/16S_.fasta`
 
 ### Create Rlibs
 
